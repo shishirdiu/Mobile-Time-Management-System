@@ -28,3 +28,10 @@ abstract class User implements Reportable {
     public int getAge() { return age; }
     public int getDailyLimit() { return dailyLimitMinutes; }
     public abstract String getUserType();
+ public void showBasicInfo() {
+        System.out.println("  Name       : " + name);
+        System.out.println("  Age        : " + age);
+        System.out.println("  User Type  : " + getUserType());
+        System.out.println("  Daily Limit: " + dailyLimitMinutes + " min");
+    }
+}
