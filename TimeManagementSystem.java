@@ -83,4 +83,16 @@ class AdultUser extends User {
     }
 }
 
+class Session {
+    private String appName;
+    private int usedMinutes;
+    private AppCategory category;
+    private String day;
+
+    public Session(String appName, int usedMinutes, AppCategory category, String day) {
+        this.appName = appName;
+        this.usedMinutes = usedMinutes;
+        this.category = category;
+        this.day = day;
+    }
 
