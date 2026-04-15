@@ -3,7 +3,6 @@ interface Reportable {
     void showReport();
     void showWeeklyReport();
 }
-
 enum AppCategory {
     SOCIAL, GAMING, EDUCATION, OTHER
 }
@@ -28,14 +27,13 @@ abstract class User implements Reportable {
     public int getAge() { return age; }
     public int getDailyLimit() { return dailyLimitMinutes; }
     public abstract String getUserType();
- public void showBasicInfo() {
+    public void showBasicInfo() {
         System.out.println("  Name       : " + name);
         System.out.println("  Age        : " + age);
         System.out.println("  User Type  : " + getUserType());
         System.out.println("  Daily Limit: " + dailyLimitMinutes + " min");
     }
 }
-
 class ChildUser extends User {
     private String parentName;
 
@@ -62,7 +60,7 @@ class AdultUser extends User {
     private String job;
 
     public AdultUser(String name, int age, String job) {
-        super(name, age, 180); 
+        super(name, age, 180);
         this.job = job;
     }
 
@@ -74,10 +72,9 @@ class AdultUser extends User {
         System.out.println("\n Adult User Report ");
         showBasicInfo();
         System.out.println("  Job        : " + job);
-       
-    }
 
- @Override
+    }
+    @Override
     public void showWeeklyReport() {
         System.out.println("  [Adult] Total Weekly capacity = " + (getDailyLimit() * 7) + " min");
     }
@@ -95,7 +92,7 @@ class Session {
         this.category = category;
         this.day = day;
     }
-   public String getAppName() { return appName; }
+    public String getAppName() { return appName; }
     public int getUsedMinutes() { return usedMinutes; }
     public AppCategory getCategory() { return category; }
     public String getDay() { return day; }
@@ -111,4 +108,71 @@ class TimeTracker {
         this.totalUsedToday = 0;
     }
 
+    public void addUsage(String appName, int minutes, AppCategory category, String day) {
+        try {
+            if (minutes <= 0) {
+                throw new InvalidTimeException("Time cannot be zero or negative!");
+            }
 
+            if (totalUsedToday + minutes > user.getDailyLimit()) {
+                throw new TimeLimitExceededException("Alert! " + user.getName() + " has exceeded the daily limit of " + user.getDailyLimit() + " mins.");
+            }
+
+            sessions.add(new Session(appName, minutes, category, day));
+            totalUsedToday += minutes;
+            System.out.println("  [Success] Added: " + appName + " (" + minutes + " min). Total used: " + totalUsedToday + " min.");
+            double usagePercent = ((double) totalUsedToday / user.getDailyLimit()) * 100;
+            if (usagePercent >= 80 && usagePercent < 100) {
+                System.out.println("  WARNING: You have used " + (int)usagePercent + "% of your limit! ");
+            }
+
+        } catch (InvalidTimeException | TimeLimitExceededException e) {
+            System.out.println("  [Error] " + e.getMessage());
+        } finally {
+            System.out.println(" System checked for " + appName + " ");
+        }
+    }
+    public void showDailySummary() {
+        System.out.println("\n--- Usage Summary for " + user.getName() + " ---");
+        for (Session s : sessions) {
+            System.out.println("  " + s.getAppName() + " [" + s.getCategory() + "] : " + s.getUsedMinutes() + " min on " + s.getDay());
+        }
+        System.out.println("  Total used today: " + totalUsedToday + " min");
+    }
+}
+public class MobileTimeManagement {
+    public static void main(String[] args) {
+        System.out.println("STARTING MOBILE TIME MANAGEMENT SYSTEM...\n");
+
+        User kid = new ChildUser("Rafi", 8, "Rahman Saheb");
+        User person = new AdultUser("Sadia", 24, "Software Engineer");
+
+        kid.showReport();
+        person.showReport();
+        System.out.println("\n>> Tracking Child Usage:");
+        TimeTracker kidTracker = new TimeTracker(kid);
+        kidTracker.addUsage("YouTube Kids", 25, AppCategory.SOCIAL, "Monday");
+        kidTracker.addUsage("Roblox", 25, AppCategory.GAMING, "Monday");
+        kidTracker.addUsage("Math App", 15, AppCategory.EDUCATION, "Monday");
+
+        kidTracker.showDailySummary();
+        System.out.println("\n>> Tracking Adult Usage:");
+        TimeTracker adultTracker = new TimeTracker(person);
+        adultTracker.addUsage("IntelliJ IDEA", 120, AppCategory.EDUCATION, "Monday");
+        adultTracker.addUsage("Facebook", 30, AppCategory.SOCIAL, "Monday");
+        adultTracker.addUsage("Negative Test", -10, AppCategory.OTHER, "Monday");
+
+        adultTracker.showDailySummary();
+        System.out.println("\n>> Polymorphism in Action (List of Users):");
+        List<User> userList = new ArrayList<>();
+        userList.add(kid);
+        userList.add(person);
+        userList.add(new ChildUser("Toma", 5, "Karim Saheb"));
+
+        for(User u : userList) {
+            System.out.println("User: " + u.getName() + " | Type: " + u.getUserType());
+        }
+
+        System.out.println("\nPROGRAM FINISHED.");
+    }
+}
