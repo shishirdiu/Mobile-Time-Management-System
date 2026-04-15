@@ -100,3 +100,15 @@ class Session {
     public AppCategory getCategory() { return category; }
     public String getDay() { return day; }
 }
+class TimeTracker {
+    private User user;
+    private List<Session> sessions;
+    private int totalUsedToday;
+
+    public TimeTracker(User user) {
+        this.user = user;
+        this.sessions = new ArrayList<>();
+        this.totalUsedToday = 0;
+    }
+
+
