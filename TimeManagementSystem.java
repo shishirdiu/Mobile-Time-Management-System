@@ -133,7 +133,7 @@ class TimeTracker {
         }
     }
     public void showDailySummary() {
-        System.out.println("\n--- Usage Summary for " + user.getName() + " ---");
+        System.out.println("\n Usage Summary for " + user.getName() + " ");
         for (Session s : sessions) {
             System.out.println("  " + s.getAppName() + " [" + s.getCategory() + "] : " + s.getUsedMinutes() + " min on " + s.getDay());
         }
