@@ -95,4 +95,8 @@ class Session {
         this.category = category;
         this.day = day;
     }
-
+   public String getAppName() { return appName; }
+    public int getUsedMinutes() { return usedMinutes; }
+    public AppCategory getCategory() { return category; }
+    public String getDay() { return day; }
+}
