@@ -142,37 +142,103 @@ class TimeTracker {
 }
 public class MobileTimeManagement {
     public static void main(String[] args) {
-        System.out.println("STARTING MOBILE TIME MANAGEMENT SYSTEM...\n");
 
-        User kid = new ChildUser("Rafi", 8, "Rahman Saheb");
-        User person = new AdultUser("Sadia", 24, "Software Engineer");
+        Scanner sc = new Scanner(System.in);
 
-        kid.showReport();
-        person.showReport();
-        System.out.println("\n>> Tracking Child Usage:");
-        TimeTracker kidTracker = new TimeTracker(kid);
-        kidTracker.addUsage("YouTube Kids", 25, AppCategory.SOCIAL, "Monday");
-        kidTracker.addUsage("Roblox", 25, AppCategory.GAMING, "Monday");
-        kidTracker.addUsage("Math App", 15, AppCategory.EDUCATION, "Monday");
+        User user = null;
+        TimeTracker tracker = null;
 
-        kidTracker.showDailySummary();
-        System.out.println("\n>> Tracking Adult Usage:");
-        TimeTracker adultTracker = new TimeTracker(person);
-        adultTracker.addUsage("IntelliJ IDEA", 120, AppCategory.EDUCATION, "Monday");
-        adultTracker.addUsage("Facebook", 30, AppCategory.SOCIAL, "Monday");
-        adultTracker.addUsage("Negative Test", -10, AppCategory.OTHER, "Monday");
+        while (true) {
+            System.out.println("\nMENU ");
+            System.out.println("1. Create User");
+            System.out.println("2. Add Usage");
+            System.out.println("3. Show Report");
+            System.out.println("4. Show Daily Summary");
+            System.out.println("5. Exit");
 
-        adultTracker.showDailySummary();
-        System.out.println("\n>> Polymorphism in Action (List of Users):");
-        List<User> userList = new ArrayList<>();
-        userList.add(kid);
-        userList.add(person);
-        userList.add(new ChildUser("Toma", 5, "Karim Saheb"));
+            int choice = sc.nextInt();
+            sc.nextLine();
 
-        for(User u : userList) {
-            System.out.println("User: " + u.getName() + " | Type: " + u.getUserType());
+            switch (choice) {
+
+                case 1:
+                    System.out.println("1. Child  2. Adult");
+                    int type = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Enter Name: ");
+                    String name = sc.nextLine();
+
+                    System.out.print("Enter Age: ");
+                    int age = sc.nextInt();
+                    sc.nextLine();
+
+                    if (type == 1) {
+                        System.out.print("Enter Parent Name: ");
+                        String parent = sc.nextLine();
+                        user = new ChildUser(name, age, parent);
+                    } else {
+                        System.out.print("Enter Job: ");
+                        String job = sc.nextLine();
+                        user = new AdultUser(name, age, job);
+                    }
+
+                    tracker = new TimeTracker(user);
+                    System.out.println("User Created Successfully!");
+                    break;
+
+                case 2:
+                    if (tracker == null) {
+                        System.out.println("Create user first!");
+                        break;
+                    }
+
+                    System.out.print("App Name: ");
+                    String app = sc.nextLine();
+
+                    System.out.print("Minutes: ");
+                    int min = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.println("Category: 1.SOCIAL 2.GAMING 3.EDUCATION 4.OTHER");
+                    int c = sc.nextInt();
+                    sc.nextLine();
+
+                    AppCategory cat = AppCategory.values()[c - 1];
+
+                    System.out.print("Day: ");
+                    String day = sc.nextLine();
+
+                    tracker.addUsage(app, min, cat, day);
+                    break;
+
+                case 3:
+                    if (user != null) {
+                        user.showReport();
+                        user.showWeeklyReport();
+                    } else {
+                        System.out.println("No user found!");
+                    }
+                    break;
+
+                case 4:
+                    if (tracker != null) {
+                        tracker.showDailySummary();
+                    } else {
+                        System.out.println("No data found!");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Exiting program...");
+                    System.exit(0);
+            }
         }
-
-        System.out.println("\nPROGRAM FINISHED.");
     }
 }
+
+
+
+
+
+
