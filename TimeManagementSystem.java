@@ -35,3 +35,21 @@ abstract class User implements Reportable {
         System.out.println("  Daily Limit: " + dailyLimitMinutes + " min");
     }
 }
+
+class ChildUser extends User {
+    private String parentName;
+
+    public ChildUser(String name, int age, String parentName) {
+        super(name, age, 60);
+        this.parentName = parentName;
+    }
+
+    @Override
+    public String getUserType() { return "Child"; }
+
+    @Override
+    public void showReport() {
+        System.out.println("\n Child User Report ");
+        showBasicInfo();
+        System.out.println("  Parent     : " + parentName);
+    }
