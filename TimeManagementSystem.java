@@ -77,4 +77,10 @@ class AdultUser extends User {
        
     }
 
+ @Override
+    public void showWeeklyReport() {
+        System.out.println("  [Adult] Total Weekly capacity = " + (getDailyLimit() * 7) + " min");
+    }
+}
+
 
