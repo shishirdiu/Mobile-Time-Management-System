@@ -4,3 +4,6 @@ interface Reportable {
     void showWeeklyReport();
 }
 
+enum AppCategory {
+    SOCIAL, GAMING, EDUCATION, OTHER
+}
