@@ -53,3 +53,10 @@ class ChildUser extends User {
         showBasicInfo();
         System.out.println("  Parent     : " + parentName);
     }
+    @Override
+    public void showWeeklyReport() {
+        System.out.println("  [Child] Total Weekly capacity = " + (getDailyLimit() * 7) + " min");
+    }
+}
+
+
