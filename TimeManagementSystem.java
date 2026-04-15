@@ -58,5 +58,23 @@ class ChildUser extends User {
         System.out.println("  [Child] Total Weekly capacity = " + (getDailyLimit() * 7) + " min");
     }
 }
+class AdultUser extends User {
+    private String job;
+
+    public AdultUser(String name, int age, String job) {
+        super(name, age, 180); 
+        this.job = job;
+    }
+
+    @Override
+    public String getUserType() { return "Adult"; }
+
+    @Override
+    public void showReport() {
+        System.out.println("\n Adult User Report ");
+        showBasicInfo();
+        System.out.println("  Job        : " + job);
+       
+    }
 
 
